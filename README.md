@@ -7,11 +7,8 @@ Introduction goes here.
 
 1. Add this extension to your Gemfile with this line:
   ```ruby
-  gem 'spree_event_mailer', github: '[your-github-handle]/spree_event_mailer', branch: 'X-X-stable'
+  gem 'spree_event_mailer', github: 'cgservices/spree_event_mailer'
   ```
-
-  The `branch` option is important: it must match the version of Spree you're using.
-  For example, use `3-1-stable` if you're using Spree `3-1-stable` or any `3.1.x` version.
 
 2. Install the gem using Bundler:
   ```ruby

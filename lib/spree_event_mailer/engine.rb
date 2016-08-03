@@ -16,12 +16,11 @@ module SpreeEventMailer
     end
 
     config.after_initialize do
-      ActiveSupport::Notifications.subscribe(/./) do |*args| #match all
-        event_name, start_time, end_time, id, payload = args
+      ActiveSupport::Notifications.subscribe(/./) do |*args| # match all
+        event_name, _start_time, _end_time, _id, payload = args
 
-        event, namespace = event_name.split('.').reverse
         broker = SpreeEventMailer::Broker.new
-        broker.dispatch(namespace, event, payload)
+        broker.dispatch_event(event_name, payload)
       end
     end
 

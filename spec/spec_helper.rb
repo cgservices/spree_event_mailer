@@ -90,4 +90,6 @@ RSpec.configure do |config|
 
   config.fail_fast = ENV['FAIL_FAST'] || false
   config.order = "random"
+
+  #config.action_mailer.perform_deliveries = false
 end

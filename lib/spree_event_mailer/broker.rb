@@ -9,9 +9,13 @@ module SpreeEventMailer
     def dispatch(namespace, action, payload)
       action = action.underscore # no .underscore!
       find_mailers_by_namespace(namespace).each do |mailer|
-        puts "#{mailer}.#{action}"
-        mailer.send(action, payload).deliver if mailer.method_defined? action
+        mailer.send(action, payload).deliver_later if mailer.method_defined? action
       end
+    end
+
+    def dispatch_event(event, payload)
+      action, namespace = event.split('.').reverse
+      dispatch(namespace, action, payload)
     end
 
     def find_mailers_by_namespace(namespace)
@@ -28,13 +32,17 @@ module SpreeEventMailer
       raise ArgumentError, 'Mailer must be an mailer' unless mailer <= ActionMailer::Base
       raise ArgumentError, 'Namespaces must be an array' unless namespaces.is_a?(Array)
 
-      namespaces << /./ if namespaces.empty? # Use the global namespace
+      namespaces << /.?/ if namespaces.empty? # Use the global namespace
 
       namespaces.each do |namespace|
         @@mailers[namespace] = [] if @@mailers[namespace].nil?
         @@mailers[namespace] << mailer
         @@mailers[namespace].uniq!
       end
+    end
+
+    def self.index
+      @@mailers
     end
   end
 end

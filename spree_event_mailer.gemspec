@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_event_mailer'
-  s.version     = '3.1.8'
+  s.version     = '3.1.9'
   s.summary     = ''
   s.description = ''
   s.required_ruby_version = '>= 2.1.0'

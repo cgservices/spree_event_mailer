@@ -23,13 +23,19 @@ describe SpreeEventMailer do
       expect(broker.find_mailers_by_namespace('fail').size).to eq(1)
     end
 
-    it 'should dispatch mail' do
-      SpreeEventMailer::Broker.add_mailer(mailer)
+    context 'mail' do
+      before do
+        SpreeEventMailer::Broker.add_mailer(mailer)
+      end
 
-      expect { broker.dispatch('success', 'test_named_email', {}) }.to raise_error(ArgumentError)
+      it 'should fail when no email address is given' do
+        expect { broker.dispatch('success', 'test_named_email', {}) }.to raise_error(ArgumentError)
+      end
 
-      broker.dispatch 'success', 'test_named_email', email: 'max.berends@cg.nl'
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
+      it 'should succeed when a valid namespace, mailer name and email are given' do
+        broker.dispatch 'success', 'test_named_email', email: 'max.berends@cg.nl'
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
+      end
     end
 
     it 'should dispatch event mail' do
